@@ -1,39 +1,55 @@
-import { Callout, Heading, Link, Stack, Text } from "@airplane/views";
+import { Loader, Stack, Card, Text, Table, Chart, useTaskQuery, Heading } from "@airplane/views";
 import airplane from "airplane";
+
 
 const KpiDashboard = () => {
   return (
-    <Stack spacing="lg">
-      <Stack spacing={0}>
-        <Heading>👋 Hello, world!</Heading>
-        <Text>Views make it easy to build UIs in Airplane.</Text>
+    <Stack>
+      <Stack direction="row" wrap>
+        <TotalRevenue />
+        <RevenueByCountry />
       </Stack>
-      <Stack spacing={0}>
-        <Heading level={3}>Learn more</Heading>
-        <Stack direction="row">
-          <Callout variant="neutral" title="Build your first view" width="1/3">
-            {"Walk through building a simple view in 15 minutes. "}
-            <Link href="https://docs.airplane.dev/getting-started/views" size="sm">
-              Read the docs.
-            </Link>
-          </Callout>
-          <Callout variant="neutral" title="Templates" width="1/3">
-            {"Work off of one of our many ready-made templates. "}
-            <Link href="https://docs.airplane.dev/templates" size="sm">
-              See our templates.
-            </Link>
-          </Callout>
-          <Callout variant="neutral" title="Reference" width="1/3">
-            {"Learn more about how to supercharge your views. "}
-            <Link href="https://docs.airplane.dev" size="sm">
-              Read the docs.
-            </Link>
-          </Callout>
-        </Stack>
+      <Stack direction="row" wrap>
+        <SalesByMonth />
       </Stack>
     </Stack>
   );
 };
+
+const SalesByMonth = () => {
+  return (
+    <Card grow>
+      <Chart type="bar" title="Sales by month" task="get_revenue_by_month" ></Chart>
+    </Card>
+  )
+}
+
+const RevenueByCountry = () => {
+  return (
+    <Card grow>
+      <Chart type="pie" title="Revenue by Country" task="get_countries" 
+        labels={["Canada", "Denmark", "Germany", "Japan", "United States"]}
+        outputTransform={(output) => output.map((country) => ({total_sales: country.total_sales}))} />
+    </Card>
+  )
+}
+const TotalRevenue = () => {
+  const { output, loading, error } = useTaskQuery({slug: "get_total_revenue"});
+  console.log(output)
+  if (loading) {
+    return <Loader />;
+  }
+  if (error) {
+    return <Text color="error">{error.message}</Text>;
+  }
+  return (
+    <Card grow>
+      <Heading level={2}>Total Revenue</Heading>
+      <Heading level={3} color="green">{`$${output.Q1[0].sum.toFixed(2)}`}</Heading>
+    </Card>
+  )
+  
+}
 
 export default airplane.view(
   {
