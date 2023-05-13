@@ -1,4 +1,4 @@
-import { Loader, Stack, Card, Text, Table, Chart, useTaskQuery, Heading } from "@airplane/views";
+import { Loader, Stack, Card, Text, Chart, useTaskQuery, Heading } from "@airplane/views";
 import airplane from "airplane";
 
 
@@ -6,20 +6,20 @@ const KpiDashboard = () => {
   return (
     <Stack>
       <Stack direction="row" wrap>
-        <TotalRevenue />
-        <RevenueByCountry />
+        <RevenueByMonth />
       </Stack>
       <Stack direction="row" wrap>
-        <SalesByMonth />
+        <TotalRevenue /> 
+        <RevenueByCountry />   
       </Stack>
     </Stack>
   );
 };
 
-const SalesByMonth = () => {
+const RevenueByMonth = () => {
   return (
     <Card grow>
-      <Chart type="bar" title="Sales by month" task="get_revenue_by_month" ></Chart>
+      <Chart type="bar" title="Revenue by month" task="get_revenue_by_month" ></Chart>
     </Card>
   )
 }
@@ -29,7 +29,7 @@ const RevenueByCountry = () => {
     <Card grow>
       <Chart type="pie" title="Revenue by Country" task="get_countries" 
         labels={["Canada", "Denmark", "Germany", "Japan", "United States"]}
-        outputTransform={(output) => output.map((country) => ({total_sales: country.total_sales}))} />
+         />
     </Card>
   )
 }
@@ -43,7 +43,7 @@ const TotalRevenue = () => {
     return <Text color="error">{error.message}</Text>;
   }
   return (
-    <Card grow>
+    <Card>
       <Heading level={2}>Total Revenue</Heading>
       <Heading level={3} color="green">{`$${output.Q1[0].sum.toFixed(2)}`}</Heading>
     </Card>
