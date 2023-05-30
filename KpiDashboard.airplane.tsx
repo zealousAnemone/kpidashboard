@@ -35,7 +35,7 @@ const RevenueByCountry = () => {
 }
 const TotalRevenue = () => {
   const { output, loading, error } = useTaskQuery({slug: "get_total_revenue"});
-  console.log(output)
+
   if (loading) {
     return <Loader />;
   }
