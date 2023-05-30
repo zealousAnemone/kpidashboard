@@ -1,3 +1,7 @@
 -- Add your SQL queries here.
 -- See SQL documentation: https://docs.airplane.dev/creating-tasks/sql
-SELECT order_number, date, items, order_amount FROM sales;
+SELECT SUM(order_amount) AS total_sales
+FROM sales
+GROUP BY country
+ORDER BY country;
+

@@ -27,7 +27,7 @@ const RevenueByMonth = () => {
 const RevenueByCountry = () => {
   return (
     <Card grow>
-      <Chart type="pie" title="Revenue by Country" task="get_countries" 
+      <Chart type="pie" title="Revenue by Country" task="get_revenue_by_country" 
         labels={["Canada", "Denmark", "Germany", "Japan", "United States"]}
          />
     </Card>
